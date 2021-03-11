@@ -1,6 +1,6 @@
 <template>
     <ul v-on:mouseleave="$emit('mouseleave')">
-        <li class="list" v-for="item of items" v-bind:value="item" v-bind:key="item.id" v-bind:class="{'active':item.active}"
+        <li class="list" v-for="item of items" v-bind:value="item" v-bind:key="item.id" v-bind:class="{'active':item.active, 'hide':item.hide}" 
         v-on:click="click(item)" @mouseover="hover(item)" >
             {{item.text}}
         </li>
@@ -49,7 +49,6 @@
         cursor: pointer;
         padding: 0;
     }
-
     ul.navbar{
         flex-direction: row;
     }
@@ -59,23 +58,25 @@
         border-bottom: solid 2pt transparent;
     }
     ul.navbar li.active{
-        border-color: #42b983;
+        border-color: var(--color2);
     }
-
     ul.sidebar{
-        flex-direction: column;
+      flex-direction: column;
+      overflow-y: scroll;
+      max-height: calc(100vh - (5vh + 88pt));
+
     }
     ul.sidebar li{
-        flex: 1 0 auto;
+        flex: 0 0 auto;
         text-align: left;
         background-color: white;
         color: #2c3e50;
+        padding: 0 15pt;
     }
     ul.sidebar li.active{
         color: white;
-        background-color: #42b983;
+        background-color: var(--color2);
     }
-
     ul.auswahl{
       flex-direction: row;
       flex: 0 0 auto;
@@ -89,7 +90,7 @@
       text-align: center;
     }
     ul.auswahl li.active{
-      border-color: #42b983;
+      border-color: var(--color2);
     }
     ul.vertical{
       display: flex;
@@ -99,4 +100,35 @@
       text-align: left;
       padding: 10pt;
     }
+
+    ul.table{
+      display: flex;
+      flex-direction: row;
+
+     background-color: var(--color1);
+    }
+    ul.table li{
+      flex: 1 0 0;
+    }
+    ul.table li.hide{
+      display: hide;
+    }
+    ul.table.header{
+     overflow: hidden;
+    }
+    ul.table li{
+      padding: 5pt;
+      text-align: left;
+
+      border-bottom: solid 2pt var(--color5) ;
+
+    }
+    ul.table.header li{
+      color: var(--color6);
+      font-weight: bold;
+      border-bottom: none;
+
+    }
+
+  
 </style>

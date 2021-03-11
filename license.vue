@@ -33,7 +33,7 @@
                 this.viewer_open = false;
             },
             accept_change(value){
-                this.accept = value;
+                this.accept = +value ;
                 this.$emit('input', this.accept);
             },
             accept_it(){
@@ -47,7 +47,7 @@
         },
         data(){
             return{
-                accept: false,
+                accept: 0,
                 viewer_open: false
             }
         },

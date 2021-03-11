@@ -24,7 +24,7 @@
                 </div>
 
                 <label>
-                    <p>E-mail:</p>
+                    <p>E-mail / Username:</p>
                     <input type="text" v-model="email">
                 </label>
                 <label>
@@ -33,7 +33,7 @@
                 </label>
 
                 <label class="checkbox" v-bind:class="{'hide': !items[0].active}">
-                    <checkbox class="font-20pt" v-model="remain_signed_in" text="Angemeldet bleiben"/>
+                    <checkbox class="font-20pt minimalmargin" v-model="remain_signed_in" text="Angemeldet bleiben"/>
                 </label>
 
                 <label v-bind:class="{'hide': !items[1].active}">
@@ -54,14 +54,12 @@
   </div>
 </template>
 <script type="text/javascript">
-const axios = require('axios')
 
     import list from './list.vue'
     import checkbox from './checkbox.vue'
     import license from './license.vue'
-    import agb_text from '!vue-html-loader!../assets/agb.html'
-    import lvb_text from '!vue-html-loader!../assets/lizensvereinbarungen.html'
-    import { BASE_URL } from '../variable.js'
+    import agb_text from '!vue-html-loader!@/assets/agb.html'
+    import lvb_text from '!vue-html-loader!@/assets/lizensvereinbarungen.html'
 
     export default{
         name:'loginpage',
@@ -94,7 +92,7 @@ const axios = require('axios')
                     return;
                   }
 
-                  axios({
+            /*      axios({
                     method: 'post',
                     url: BASE_URL + '/register',
                     data: {
@@ -102,7 +100,7 @@ const axios = require('axios')
                       password: this.password
                     }
                   }).then(response => console.log(response.data));
-                }
+               */ }
             },
             open(selector){
               console.log(selector);
@@ -131,14 +129,13 @@ const axios = require('axios')
                 email: '',
                 password: '',
                 password_again: '',
-                remain_signed_in: false,
+                remain_signed_in: 0,
 
                 agb_text,
                 lvb_text
             }
         },
         created(){
-          axios.defaults.baseURL = BASE_URL;
 
         }
     }
@@ -229,5 +226,25 @@ input[type='checkbox']{
 }
 .placeholder{
   flex: 0 1 100%;
+}
+@media screen and (max-device-width: 800px) {/*für mobil*/
+  .background{
+    display: flex;
+  }
+  .background div{
+    flex: 1 0 0;
+    margin: 0;
+    padding: 2.5pt;
+  }
+  div.wrapper.btn{
+    flex-direction: column-reverse;
+  }
+  div.wrapper.btn input.button{
+    margin-left: 0;
+    margin: 5pt 7.5pt;
+  }
+  label.checkbox .wrapper.font-20pt div.checkbox{
+    margin: auto 5pt
+  }
 }
 </style>

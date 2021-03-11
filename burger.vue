@@ -1,5 +1,5 @@
 <template id="">
-  <div class="burger" v-bind:class="{'crossed':this.crossed}" v-on:click="click">
+  <div class="burger" :class="{'crossed':iscrossed}" v-on:click="click">
     <div class="bar1"></div>
     <div class="bar2"></div>
     <div class="bar3"></div>
@@ -9,16 +9,37 @@
   export default{
     name: 'burger',
     props: ['crossed', 'active'],
+    created(){
+      this.iscrossed = this.$props.crossed
+    },
+    
     methods:{
       click(){
-        if(this.crossed)
-          this.$emit('close', 1)
-        else
-          this.$emit('open', 1)
+       
 
-        if(this.active)
-          this.crossed = !this.crossed;
 
+        if(this.active){
+          this.iscrossed = !this.iscrossed;
+          if(this.iscrossed)
+            this.$emit('open', 1)
+          else
+            this.$emit('close', 1)
+          console.log('lol yes');
+        }else{
+          if(this.iscrossed)
+            this.$emit('close', 1)
+          else
+            this.$emit('open', 1)
+        }
+
+       
+      },close_burger(){
+        this.iscrossed = false;
+      },
+      
+    }, data(){
+      return{
+        iscrossed: 0
       }
     }
   }
@@ -40,6 +61,23 @@
 .font28pt.burger.crossed .bar3{
   -webkit-transform: translate(-0vh, -8pt) rotate(45deg);
   transform: translate(-0vh, -8pt) rotate(45deg);
+}
+
+.font42pt.burger{
+  width: 42pt;
+  height: 42pt;
+}
+.font42pt.burger div{
+  height: 6pt;
+  margin-top: 6pt;
+}
+.font42pt.burger.crossed .bar1{
+  -webkit-transform: translate(0vh, 12pt) rotate(-45deg) ;
+  transform: translate(0vh, 12pt) rotate(-45deg) ;
+}
+.font42pt.burger.crossed .bar3{
+  -webkit-transform: translate(-0vh, -12pt) rotate(45deg);
+  transform: translate(-0vh, -12pt) rotate(45deg);
 }
 
 .burger{

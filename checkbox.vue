@@ -1,11 +1,11 @@
 <template>
-    <div class="wrapper" v-bind:value="this.clicked" v-on:click="item_clicked">
+    <div class="wrapper" v-bind:value="this.clicked" v-on:click="item_clicked" >
         <div class="checkbox" v-bind:class="{'clicked':this.clicked}">
 
         </div>
-        <p v-bind:class="{'hide':this.text == ''}">
+        <a v-bind:class="{'hide':this.text == ''}">
             {{ text }}
-        </p>
+        </a>
     </div>
 </template>
 <script type="text/javascript">
@@ -16,8 +16,9 @@ export default{
             type: String
         },
         value:{
-            type: Boolean
-        }
+            type: Number
+        },
+        color:String,
     },
     methods:{
         item_clicked(){
@@ -41,7 +42,14 @@ export default{
                 this.clicked = this.$props.value;
             }
         }
+    },
+    computed: {
+        cssVars() {
+         return {
+            '--bg-color': (this.color != '')? this.color: '#42b983',
+      }
     }
+  }
 }
 </script>
 <style media="screen" scoped>
@@ -63,6 +71,10 @@ export default{
         background-color: lightgrey;
         transition: background-color 0.4s
     }
+    .minimalmargin div.checkbox{
+        margin: auto 5pt;
+
+    }
     div.checkbox:before{
         content: '';
         display: block;
@@ -75,7 +87,7 @@ export default{
         transition: margin 0.4s;
     }
     div.checkbox.clicked{
-        background-color: #42b983;;
+        background-color: var(--color2);
     }
     div.checkbox.clicked:before{
         margin-left: calc(50% - 4pt);
@@ -94,7 +106,23 @@ export default{
         border-radius: 12pt;
     }
     .font-20pt .checkbox.clicked:before{
-        margin-left: calc(50% - 3pt);
+        margin-left: calc(50% - 4pt);
+    }
+    .font-12pt .checkbox{
+        height: 16pt;
+        flex: 0 0 32pt;
+        width: 32pt;
+        border-radius: 15pt;
+        padding: 3pt;
+
+    }
+    .font-12pt .checkbox:before{
+        width: 16pt;
+        height: 16pt;
+        border-radius: 8pt;
+    }
+    .font-12pt .checkbox.clicked:before{
+        margin-left: calc(50% - 2pt);
     }
     .hide{
         display: none;
