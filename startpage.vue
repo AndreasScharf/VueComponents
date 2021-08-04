@@ -4,11 +4,9 @@
   </div>
 </template>
 <script type="text/javascript">
-  import kategories from './kategories.vue'
   export default{
     name: 'startpage',
     components:{
-      kategories
     },
     data(){
       return{

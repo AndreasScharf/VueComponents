@@ -8,9 +8,7 @@ export default{
   name:'datarow',
   props: ['row'],
   methods:{
-    click(item){
-      
-    }
+  
   }
 }
 </script>

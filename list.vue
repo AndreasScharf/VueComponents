@@ -1,7 +1,7 @@
 <template>
     <ul v-on:mouseleave="$emit('mouseleave')">
         <li class="list" v-for="item of items" v-bind:value="item" v-bind:key="item.id" v-bind:class="{'active':item.active, 'hide':item.hide}" 
-        v-on:click="click(item)" @mouseover="hover(item)" >
+        @mouseover="hover(item)" v-on:click="click(item)" @ontouchstart="click(item)">
             {{item.text}}
         </li>
     </ul>
@@ -15,17 +15,18 @@
     },
     methods:{
       click(item){
-      this.items.forEach( item => item.active = false );
+        this.items.forEach( item => item.active = false );
         item.active = true;
 
-        if(item.click)
-          item.click(item);
-          else if(item.both_events){
-            item.click(item);
-            this.$emit('item-clicked', item)
-          }else
-          this.$emit('item-clicked', item)
+        if(item.click){
 
+          item.click(item);
+        }else if(item.both_events){
+          item.click(item);
+          this.$emit('item-clicked', item)
+        }else{
+          this.$emit('item-clicked', item)
+        }
       },
       hover(e){
         this.$emit('hover', e)
@@ -56,6 +57,7 @@
         flex: 1 0 0;
         text-align: center;
         border-bottom: solid 2pt transparent;
+        font-size: var(--font1);
     }
     ul.navbar li.active{
         border-color: var(--color2);

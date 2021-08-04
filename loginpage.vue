@@ -7,46 +7,46 @@
     <div class="user" v-bind:class="{'hide':true}">
 
     </div>
-    <div class="background" v-bind:class="{'hide':!(this.visible || this.open_at_start)}">
-        <div class="">
+    <div class="loginpage background" v-bind:class="{'hide':!(this.visible || this.open_at_start)}">
+        <div class="" style="display: flex; flex-direction: column;">
+            <div v-if="$isMobile()" class="logo icon" :style="`flex: 0 0 70pt; background-image var(--logo); margin: 0 20pt;`"></div>
             <list class="navbar" v-bind:items="items"/>
             <form>
                 <!--Login item 0 Register item 1-->
                 <div class="wrapper" v-bind:class="{'hide': !items[1].active}">
-                    <label for="">
-                        <p>Vorname:</p>
-                        <input type="text" v-model="name">
-                    </label>
-                    <label for="">
-                        <p>Nachname:</p>
-                        <input type="text" v-model="lastname">
-                    </label>
+                  <md-field class="">
+                    <label>Vorname</label>
+                    <md-input v-model="name"></md-input>
+                  </md-field> 
+                  <md-field class="">
+                    <label>Nachname</label>
+                    <md-input v-model="lastname"></md-input>
+                  </md-field>
                 </div>
 
-                <label>
-                    <p>E-mail / Username:</p>
-                    <input type="text" v-model="email">
-                </label>
-                <label>
-                    <p>Passwort:</p>
-                    <input type="password" v-model="password">
-                </label>
 
-                <label class="checkbox" v-bind:class="{'hide': !items[0].active}">
-                    <checkbox class="font-20pt minimalmargin" v-model="remain_signed_in" text="Angemeldet bleiben"/>
-                </label>
+                <md-field class="">
+                  <label>email/username</label>
+                  <md-input v-model="email"></md-input>
+                </md-field>
+                <md-field>
+                  <label>password</label>
+                  <md-input type="password" v-model="password"></md-input>
+                </md-field>
+                <md-switch v-model="remain_signed_in" class="md-primary" :class="{'hide': !items[0].active}">remain signed in</md-switch>
 
-                <label v-bind:class="{'hide': !items[1].active}">
-                    <p>Passwort wiederholden:</p>
-                    <input type="password" v-model="password_again">
-                </label>
+                <md-field :class="{'hide': !items[1].active}">
+                  <label>password repeat</label>
+                  <md-input type="password" v-model="password_again"></md-input>
+                </md-field>
+
 
                 <license v-bind:class="{'hide': !items[1].active}" pre_text="Ich stimme den " open_text="Lizensvereinbarungen" post_text=" zu" v-bind:license_text="lvb_text"/>
                 <license v-bind:class="{'hide': !items[1].active}" pre_text="Ich stimme den " open_text="AGBs" post_text=" zu" v-bind:license_text="agb_text"/>
                 <div class="wrapper btn">
                     <div class="placeholder"></div>
-                    <input class="button" type="button" name="" value="abort" v-on:click="close">
-                    <input class="button" type="submit" v-bind:value="get_active()" v-on:click="submit">
+                    <input class="button login" type="button" name="" value="abort" v-on:click="close">
+                    <input class="button login" type="submit" v-bind:value="get_active()" v-on:click="submit">
                 </div>
             </form>
         </div>
@@ -56,7 +56,6 @@
 <script type="text/javascript">
 
     import list from './list.vue'
-    import checkbox from './checkbox.vue'
     import license from './license.vue'
     import agb_text from '!vue-html-loader!@/assets/agb.html'
     import lvb_text from '!vue-html-loader!@/assets/lizensvereinbarungen.html'
@@ -67,7 +66,6 @@
         props: ['open_at_start', 'hide_register'],
         components:{
             list,
-            checkbox,
             license
         },
         methods:{
@@ -77,33 +75,15 @@
 
                 if(this.items[0].active){
                   this.$emit('login', {email: this.email, password: this.password});
-/*                  axios({
-                    method: 'post',
-                    url: '/login',
-                    data: {
-                      email: this.email,
-                      password: this.password
-                    }
-                  }).then(response => console.log(response));
-*/
+
                 }else{
                   if(this.password != this.password_again){
                     alert('passwords are not even!!!')
                     return;
                   }
-
-            /*      axios({
-                    method: 'post',
-                    url: BASE_URL + '/register',
-                    data: {
-                      email: this.email,
-                      password: this.password
-                    }
-                  }).then(response => console.log(response.data));
-               */ }
+ }
             },
             open(selector){
-              console.log(selector);
 
               this.items[0].active = (selector == 0);
               this.items[1].active = (selector == 1);
@@ -120,8 +100,8 @@
                 items:[
                     {id: 0, text:'Login', active:true},
                     {id: 1, text: 'Register', active:false, click:()=>{
-                      this.items[1].active = false;
-                      this.items[0].active = true;
+                      //this.items[1].active = false;
+                      //this.items[0].active = true;
                     }}
                 ],
                 name: '',
@@ -140,19 +120,11 @@
         }
     }
 </script>
-<style media="screen" scoped>
+<style media="screen" >
 #main_div{
   flex: 0 0 auto;
 }
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    /*margin-top: 60px;*/
-    font-size: 20pt;
-}
+
 .toLogin{
   text-align: right;
   margin-bottom: 5px;
@@ -162,10 +134,13 @@
 .opener{
   margin-left: 20pt;
 }
-*{
-  font-size: 20pt;
+.loginpage label{
+  font-size: var(--font1);
 }
-.background{
+.loginpage input:not(.button){
+  font-size: var(--font1);
+}
+.loginpage.background{
   position: fixed;
   top: 0;
   left: 0;
@@ -175,75 +150,85 @@
   display: block;
   z-index: 10;
 }
-.background > div{
+.loginpage.background > div{
   margin: 7.5%;
   background-color: white;
   padding: 20pt;
 }
-.hide{
+.loginpage .hide{
   display: none!important;
 }
-form{
+.loginpage form{
   display: flex;
   flex-direction: column;
 }
-.wrapper{
+.loginpage .wrapper{
   flex: 0 0 auto;
 
   display: flex;
   flex-direction: row;
 }
-.wrapper label{
+.loginpage .wrapper label{
   flex: 1 0 auto;
 }
-.wrapper label:first-child{
+.loginpage .wrapper label:first-child{
   margin-right: 20pt;
 }
-label{
+.loginpage label{
   flex: 0 0 auto;
 
   display: flex;
   flex-direction: column;
 }
-label.checkbox{
+.loginpage label.checkbox{
   flex-direction: row;
   margin-top: 20pt;
 }
-p{
+.loginpage p{
   text-align: left;
   margin-bottom: 0;
 }
-input[type='checkbox']{
+.loginpage input[type='checkbox']{
   height: 20pt;
   transform: scale(1.5);
   margin: auto 10pt;
 }
-.wrapper .button{
+.loginpage .wrapper .button{
   margin-top: 20pt;
   flex: 1 0 auto;
   margin-left: 20pt;
   padding: 0 35pt;
 }
-.placeholder{
+.loginpage .placeholder{
   flex: 0 1 100%;
 }
 @media screen and (max-device-width: 800px) {/*für mobil*/
-  .background{
+
+  .loginpage.background{
     display: flex;
+    width: 100vw;
   }
-  .background div{
+  .loginpage.background > div{
     flex: 1 0 0;
     margin: 0;
-    padding: 2.5pt;
+    padding: 0pt;
+    
   }
-  div.wrapper.btn{
+  .loginpage ul{
+    margin: 0 20pt;
+    margin-top: 15%;
+  }
+  .loginpage form{
+    margin: 0 20pt;
+  }
+  .loginpage div.wrapper.btn{
     flex-direction: column-reverse;
   }
-  div.wrapper.btn input.button{
+  .loginpage div.wrapper.btn input.button{
     margin-left: 0;
-    margin: 5pt 7.5pt;
+    margin: 5pt 0;
   }
-  label.checkbox .wrapper.font-20pt div.checkbox{
+  .loginpage label.checkbox .wrapper.font-20pt div.checkbox{
     margin: auto 5pt
   }
 }

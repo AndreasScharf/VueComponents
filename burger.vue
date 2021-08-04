@@ -34,12 +34,13 @@
 
        
       },close_burger(){
-        this.iscrossed = false;
+        if(this.active)
+          this.iscrossed = false;
       },
       
     }, data(){
       return{
-        iscrossed: 0
+        iscrossed: this.$props.crossed
       }
     }
   }
@@ -80,6 +81,8 @@
   transform: translate(-0vh, -12pt) rotate(45deg);
 }
 
+
+
 .burger{
     flex: 0 0 auto;
     cursor: pointer;
@@ -114,6 +117,24 @@
 @media  screen and (max-device-width: 800px) {
     .burger{
         display: block;
+    }
+
+    .font42pt.burger{
+      width: 7vh;
+      height: 7vh;
+    }
+    .font42pt.burger div{
+      height: 1vh;
+      margin-top: 1vh;
+      width: 5vh;
+    }
+    .font42pt.burger.crossed .bar1{
+      -webkit-transform: translate(0vh, 2vh) rotate(-45deg) ;
+      transform: translate(0vh, 2vh) rotate(-45deg) ;
+    }
+    .font42pt.burger.crossed .bar3{
+      -webkit-transform: translate(-0vh, -2vh) rotate(45deg);
+      transform: translate(-0vh, -2vh) rotate(45deg);
     }
 }
 </style>

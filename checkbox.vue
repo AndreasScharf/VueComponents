@@ -3,9 +3,9 @@
         <div class="checkbox" v-bind:class="{'clicked':this.clicked}">
 
         </div>
-        <a v-bind:class="{'hide':this.text == ''}">
+        <span class="a" v-bind:class="{'hide':this.text == ''}">
             {{ text }}
-        </a>
+        </span>
     </div>
 </template>
 <script type="text/javascript">
@@ -93,17 +93,17 @@ export default{
         margin-left: calc(50% - 4pt);
     }
     .font-20pt .checkbox{
-        height: 24pt;
-        flex: 0 0 40pt;
-        width: 48pt;
-        border-radius: 15pt;
-        padding: 3pt;
+           height: 24pt;
+            flex: 0 0 40pt;
+            width: 40pt;
+            border-radius: 24pt;
+            padding: 3pt;
 
     }
     .font-20pt .checkbox:before{
-        width: 24pt;
-        height: 24pt;
-        border-radius: 12pt;
+        width: 18pt;
+        height: 18pt;
+        border-radius: 9pt;
     }
     .font-20pt .checkbox.clicked:before{
         margin-left: calc(50% - 4pt);
