@@ -36,6 +36,9 @@
       },close_burger(){
         if(this.active)
           this.iscrossed = false;
+      },open_burger(){
+        if(this.active)
+          this.iscrossed = true;
       },
       
     }, data(){
@@ -126,7 +129,6 @@
     .font42pt.burger div{
       height: 1vh;
       margin-top: 1vh;
-      width: 5vh;
     }
     .font42pt.burger.crossed .bar1{
       -webkit-transform: translate(0vh, 2vh) rotate(-45deg) ;

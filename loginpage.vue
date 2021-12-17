@@ -1,8 +1,8 @@
 <template>
   <div id="main_div">
     <div class="toLogin" v-bind:class="{'hide':this.open_at_start}">
-      <input type="button" value="Sign In" v-on:click="open(0)" class="opener button">
-      <input type="button" value="Sign Up" v-on:click="open(1)" class="opener button">
+      <input type="button" :value="$translate('Sign In')" v-on:click="open(0)" class="opener button">
+      <input type="button" :value="$translate('Sign Up')" v-on:click="open(1)" class="opener button">
     </div>
     <div class="user" v-bind:class="{'hide':true}">
 
@@ -13,12 +13,14 @@
             <list class="navbar" v-bind:items="items"/>
             <form>
                 <!--Login item 0 Register item 1-->
+
                 <div class="wrapper" v-bind:class="{'hide': !items[1]}">
                   <md-field class="">
+
                     <label>Vorname</label>
                     <md-input v-model="name"></md-input>
                   </md-field> 
-                  <md-field class="">
+                  <md-field class="name_wrapper">
                     <label>Nachname</label>
                     <md-input v-model="lastname"></md-input>
                   </md-field>
@@ -26,18 +28,25 @@
 
 
                 <md-field class="">
-                  <label>email/username</label>
+                  <label>{{$translate('email/username')}}</label>
                   <md-input v-model="email"></md-input>
                 </md-field>
                 <md-field>
-                  <label>password</label>
+                  <label>{{$translate('password')}}</label>
                   <md-input type="password" v-model="password"></md-input>
                 </md-field>
-                <md-switch v-model="remain_signed_in" class="md-primary" :class="{'hide': !items[0].active}">remain signed in</md-switch>
+                <md-switch v-model="remain_signed_in" class="md-primary" :class="{'hide': !items[0].active}">{{$translate('remain signed in')}}</md-switch>
+
 
                 <md-field :class="{'hide': items[1] ? !items[1].active:true}">
                   <label>password repeat</label>
+
                   <md-input type="password" v-model="password_again"></md-input>
+                </md-field>
+
+                <md-field :class="{'hide': !items[1].active || !regicode}">
+                  <label>Registercode:</label>
+                  <md-input type="text" v-model="registercode"></md-input>
                 </md-field>
 
 
@@ -45,8 +54,10 @@
                 <license v-bind:class="{'hide': items[1]? !items[1].active: true}" pre_text="Ich stimme den " open_text="AGBs" post_text=" zu" v-bind:license_text="agb_text"/>
                 <div class="wrapper btn">
                     <div class="placeholder"></div>
+
                     <md-button class="button login md-primary" :class="{'hide':!items[1]}" type="button" name="" value="abort" v-on:click="close">abort</md-button>
                     <md-button class="button login  md-primary" type="submit" v-bind:value="get_active()" v-on:click="submit">login</md-button>
+
                 </div>
             </form>
         </div>
@@ -63,7 +74,7 @@
     export default{
         name:'loginpage',
 
-        props: ['open_at_start', 'hide_register'],
+        props: ['open_at_start', 'hide_register', 'regicode'],
         components:{
             list,
             license
@@ -81,7 +92,7 @@
                     alert('passwords are not even!!!')
                     return;
                   }
- }
+ }                this.$emit('register', {name:this.name, lastname:this.lastname, email: this.email, password: this.password, regicode: this.registercode})
             },
             open(selector){
 
@@ -96,9 +107,11 @@
             }
         },
         data(){
+
             const items = [{id: 0, text:'Login', active:true}]
             if(!this.$props.hide_register)
               items.push({id: 1, text: 'Register', active:false, click:()=>{
+
                       //this.items[1].active = false;
                       //this.items[0].active = true;
                     }})
@@ -110,6 +123,7 @@
                 email: '',
                 password: '',
                 password_again: '',
+                registercode: '',
                 remain_signed_in: 0,
 
                 agb_text,
@@ -117,10 +131,23 @@
             }
         },
         created(){
+          this.$dictonary.add([
+            ['Sign Up', 'Registrieren'],
+            ['Sign In', 'Anmelden'],
+
+            ['login', 'anmelden'],
+            ['register', 'registrieren'],
+            ['email/username', 'E-mail/Benutzername'],
+            ['password', 'Passwort'],
+            ['password repeat', 'Passwort nochmal'],
+            ['remain signed in', 'angemeldet bleiben'],
+
+
 
         },
         mounted(){
           
+
         }
     }
 </script>
@@ -167,6 +194,9 @@
 
   display: flex;
   flex-direction: row;
+}
+.loginpage .wrapper .name_wrapper{
+  margin: 0 2.5pt;
 }
 .loginpage .wrapper label{
   flex: 1 0 auto;
@@ -230,6 +260,12 @@
   }
   .loginpage label.checkbox .wrapper.font-20pt div.checkbox{
     margin: auto 5pt
+  }
+  .loginpage .wrapper.names{
+    flex-direction: column;
+  }
+  .loginpage .wrapper.names div{
+    margin: auto 0;
   }
 }
 </style>
