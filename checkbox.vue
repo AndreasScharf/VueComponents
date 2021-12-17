@@ -63,10 +63,10 @@ export default{
     }
     div.checkbox{
         margin: auto 20pt;
-        flex: 0 0 60pt;
-        height: 34pt;
+        flex: 0 0 68pt;
+        height: 42pt;
         width: 68pt;
-        border-radius: 19pt;
+        border-radius: 21pt;
         padding: 4pt;
         background-color: lightgrey;
         transition: background-color 0.4s
@@ -109,7 +109,7 @@ export default{
         margin-left: calc(50% - 4pt);
     }
     .font-12pt .checkbox{
-        height: 16pt;
+        height: 22pt;
         flex: 0 0 32pt;
         width: 32pt;
         border-radius: 15pt;

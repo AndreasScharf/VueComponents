@@ -23,9 +23,9 @@
        setInterval(()=>{
          this.active_index++;
          if(this.active_index >= this.images.length)
-          this.active_index = 0;
+           this.active_index = 0;
 
-       }, 100000)
+       }, 10000)
     },
     data(){
       return{
@@ -107,5 +107,10 @@ p.inwhite{
 }
 .galerie .image .placeholder{
   flex: 1 0 0;
+}
+@media screen and (max-device-width: 800px) {/*für mobil*/
+p.inwhite{
+  width: 0;
+}
 }
 </style>
