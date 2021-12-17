@@ -57,6 +57,7 @@
         flex: 1 0 0;
         text-align: center;
         border-bottom: solid 2pt transparent;
+        padding: 10px;
         font-size: var(--font1);
     }
     ul.navbar li.active{

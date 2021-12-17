@@ -13,7 +13,7 @@
             <list class="navbar" v-bind:items="items"/>
             <form>
                 <!--Login item 0 Register item 1-->
-                <div class="wrapper" v-bind:class="{'hide': !items[1].active}">
+                <div class="wrapper" v-bind:class="{'hide': !items[1]}">
                   <md-field class="">
                     <label>Vorname</label>
                     <md-input v-model="name"></md-input>
@@ -35,18 +35,18 @@
                 </md-field>
                 <md-switch v-model="remain_signed_in" class="md-primary" :class="{'hide': !items[0].active}">remain signed in</md-switch>
 
-                <md-field :class="{'hide': !items[1].active}">
+                <md-field :class="{'hide': items[1] ? !items[1].active:true}">
                   <label>password repeat</label>
                   <md-input type="password" v-model="password_again"></md-input>
                 </md-field>
 
 
-                <license v-bind:class="{'hide': !items[1].active}" pre_text="Ich stimme den " open_text="Lizensvereinbarungen" post_text=" zu" v-bind:license_text="lvb_text"/>
-                <license v-bind:class="{'hide': !items[1].active}" pre_text="Ich stimme den " open_text="AGBs" post_text=" zu" v-bind:license_text="agb_text"/>
+                <license v-bind:class="{'hide': items[1]? !items[1].active: true}" pre_text="Ich stimme den " open_text="Lizensvereinbarungen" post_text=" zu" v-bind:license_text="lvb_text"/>
+                <license v-bind:class="{'hide': items[1]? !items[1].active: true}" pre_text="Ich stimme den " open_text="AGBs" post_text=" zu" v-bind:license_text="agb_text"/>
                 <div class="wrapper btn">
                     <div class="placeholder"></div>
-                    <input class="button login" type="button" name="" value="abort" v-on:click="close">
-                    <input class="button login" type="submit" v-bind:value="get_active()" v-on:click="submit">
+                    <md-button class="button login md-primary" :class="{'hide':!items[1]}" type="button" name="" value="abort" v-on:click="close">abort</md-button>
+                    <md-button class="button login  md-primary" type="submit" v-bind:value="get_active()" v-on:click="submit">login</md-button>
                 </div>
             </form>
         </div>
@@ -86,7 +86,8 @@
             open(selector){
 
               this.items[0].active = (selector == 0);
-              this.items[1].active = (selector == 1);
+              if(this.items[1])
+                this.items[1].active = (selector == 1);
 
               this.visible = true;
             },
@@ -95,15 +96,15 @@
             }
         },
         data(){
-            return{
-                visible: false,
-                items:[
-                    {id: 0, text:'Login', active:true},
-                    {id: 1, text: 'Register', active:false, click:()=>{
+            const items = [{id: 0, text:'Login', active:true}]
+            if(!this.$props.hide_register)
+              items.push({id: 1, text: 'Register', active:false, click:()=>{
                       //this.items[1].active = false;
                       //this.items[0].active = true;
-                    }}
-                ],
+                    }})
+            return{
+                visible: false,
+                items:items,
                 name: '',
                 lastname: '',
                 email: '',
@@ -117,6 +118,9 @@
         },
         created(){
 
+        },
+        mounted(){
+          
         }
     }
 </script>
@@ -134,12 +138,8 @@
 .opener{
   margin-left: 20pt;
 }
-.loginpage label{
-  font-size: var(--font1);
-}
-.loginpage input:not(.button){
-  font-size: var(--font1);
-}
+
+
 .loginpage.background{
   position: fixed;
   top: 0;
